@@ -44,7 +44,7 @@ pipeline {
         }
         stage('Ansible Deploy') {
                     steps {
-                        withCredentials([usernamePassword(credentialsId: 'ansible-credentials', usernameVariable: 'ANSIBLE_USER', passwordVariable: 'ANSIBLE_PASS')]) {
+                        withCredentials([usernamePassword(credentialsId: 'ansible-id', usernameVariable: 'ANSIBLE_USER', passwordVariable: 'ANSIBLE_PASS')]) {
                             // Pass the credentials to Ansible via extra-vars.
                             sh '''
                                 ansible-playbook -i inventory.ini deploy.yml \
