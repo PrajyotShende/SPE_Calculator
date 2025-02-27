@@ -43,15 +43,14 @@ pipeline {
             }
         }
         stage('Ansible Deploy') {
-                    steps {
-                        withCredentials([usernamePassword(credentialsId: 'ansible-id', usernameVariable: 'ANSIBLE_USER', passwordVariable: 'ANSIBLE_PASS')]) {
-                            // Pass the credentials to Ansible via extra-vars.
-                            sh '''
-                                ansible-playbook -i inventory.ini deploy.yml \
-                                --extra-vars "ansible_user=$ANSIBLE_USER ansible_password=$ANSIBLE_PASS"
-                            '''
-                        }
-                    }
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'ansible-id', usernameVariable: 'ANSIBLE_USER', passwordVariable: 'ANSIBLE_PASS')]) {
+                    sh '''
+                        ansible-playbook -i inventory.ini deploy.yml \
+                        --extra-vars "ansible_user=$ANSIBLE_USER ansible_ssh_pass=$ANSIBLE_PASS"
+                    '''
                 }
+            }
+        }
     }
 }
