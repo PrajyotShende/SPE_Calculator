@@ -1,6 +1,6 @@
 ---
 - name: Deploy Scientific Calculator Container
-  hosts: target_servers   # Define your group of servers in your inventory
+  hosts: localhost   # Define your group of servers in your inventory
   become: yes
   tasks:
     - name: Pull Docker image from Docker Hub

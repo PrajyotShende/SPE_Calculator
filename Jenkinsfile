@@ -1,6 +1,15 @@
 pipeline {
     agent any
 
+    triggers {
+        githubPush()
+    }
+
+    environment {
+        DOCKER_IMAGE_NAME = 'spe_calculator'
+        GITHUB_REPO_URL = 'https://github.com/PrajyotShende/SPE_Calculator.git'
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -31,6 +40,11 @@ pipeline {
                     docker push prajyotshende/spe_calculator:latest
                     '''
                 }
+            }
+        }
+        stage('Ansible Deploy') {
+            steps {
+                sh 'ansible-playbook -i inventory.ini deploy.yml'
             }
         }
     }
