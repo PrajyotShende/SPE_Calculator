@@ -1,6 +1,6 @@
 ---
 - name: Deploy Scientific Calculator Container
-  hosts: localhost
+  hosts: mytarget
   become: yes
   tasks:
     - name: Pull Docker image from Docker Hub
