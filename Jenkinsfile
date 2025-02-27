@@ -1,70 +1,37 @@
 pipeline {
     agent any
-    triggers {
-        githubPush()
-    }
-    environment {
-        DOCKER_IMAGE_NAME = 'calculator'
-        GITHUB_REPO_URL = 'https://github.com/PrajyotShende/SPE_Calculator.git'
-    }
 
     stages {
         stage('Checkout') {
             steps {
-                script {
-                    // Checkout the code from the GitHub repository
-                    git branch: 'master', url: "${GITHUB_REPO_URL}"
-                }
+                checkout scm
             }
         }
-
-//         stage('Build Docker Image') {
-//             steps {
-//                 script {
-//                     // Build Docker image
-//                     docker.build("${DOCKER_IMAGE_NAME}", '.')
-//                 }
-//             }
-//         }
-//
-//         stage('Push Docker Images') {
-//             steps {
-//                 script {
-//                     docker.withRegistry('', 'DockerHubCred') {
-//                         sh 'docker tag calculator iiitb/calculator:latest'
-//                         sh 'docker push iiitb/calculator'
-//                     }
-//                 }
-//             }
-//         }
-//
-//         stage('Run Ansible Playbook') {
-//             steps {
-//                 script {
-//                     withEnv(["ANSIBLE_HOST_KEY_CHECKING=False"]) {
-//                         ansiblePlaybook(
-//                             playbook: 'deploy.yml',
-//                             inventory: 'inventory'
-//                         )
-//                     }
-//                 }
-//             }
-//         }
-//     }
-
-    post {
-        success {
-            mail to: 'shendeprajyot.prasad@iiitb.ac.in',
-                 subject: "Application Deployment SUCCESS: Build ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                 body: "The build was successful!"
+        stage('Build') {
+            steps {
+                sh 'mvn clean package'
+            }
         }
-        failure {
-            mail to: 'shendeprajyot.prasad@iiitb.ac.in',
-                 subject: "Application Deployment FAILURE: Build ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                 body: "The build failed."
+        stage('Test') {
+            steps {
+                sh 'mvn test'
+            }
         }
-        always {
-            cleanWs()
+        stage('Docker Build') {
+            steps {
+                sh 'docker build -t prajyotshende/SPE_Calculator .'
+            }
+        }
+        stage('Docker Push') {
+            steps {
+                withCredentials([string(credentialsId: 'docker-hub-credentials', variable: 'DOCKER_PASS')]) {
+                    sh '''
+                    docker login -u prajyotshende -p $DOCKER_PASS
+                    docker tag prajyotshende/SPE_Calculator prajyotshende/SPE_Calculator:latest
+                    docker push prajyotshende/SPE_Calculator:latest
+                    '''
+                }
+            }
         }
     }
 }
