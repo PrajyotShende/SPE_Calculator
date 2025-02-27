@@ -1,18 +1,10 @@
 pipeline {
     agent any
-    triggers {
-          githubPush()
-       }
-    environment {
-            DOCKER_IMAGE_NAME = 'spe_calculator'
-            GITHUB_REPO_URL = 'https://github.com/PrajyotShende/SPE_Calculator.git'
-        }
 
     stages {
         stage('Checkout') {
             steps {
-                script {
-                    git branch: 'main', url: "${GITHUB_REPO_URL}"
+                checkout scm
             }
         }
         stage('Build') {
