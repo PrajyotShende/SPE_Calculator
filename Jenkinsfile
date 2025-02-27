@@ -24,9 +24,9 @@ pipeline {
         }
         stage('Docker Push') {
             steps {
-                withCredentials([string(credentialsId: 'docker-id', variable: 'DOCKER_PASS')]) {
+                withCredentials([usernamePassword(credentialsId: 'docker-id', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                     sh '''
-                    docker login -u prajyotshende -p $DOCKER_PASS
+                    docker login -u $DOCKER_USER -p $DOCKER_PASS
                     docker tag prajyotshende/spe_calculator prajyotshende/spe_calculator:latest
                     docker push prajyotshende/spe_calculator:latest
                     '''
