@@ -1,8 +1,8 @@
 pipeline {
     agent any
     triggers {
-      githubPush()
-   }
+        githubPush()
+    }
     environment {
         DOCKER_IMAGE_NAME = 'calculator'
         GITHUB_REPO_URL = 'https://github.com/PrajyotShende/SPE_Calculator.git'
@@ -18,40 +18,41 @@ pipeline {
             }
         }
 
-        stage('Build Docker Image') {
-            steps {
-                script {
-                    // Build Docker image
-                    docker.build("${DOCKER_IMAGE_NAME}", '.')
-                }
-            }
-        }
+//         stage('Build Docker Image') {
+//             steps {
+//                 script {
+//                     // Build Docker image
+//                     docker.build("${DOCKER_IMAGE_NAME}", '.')
+//                 }
+//             }
+//         }
+//
+//         stage('Push Docker Images') {
+//             steps {
+//                 script {
+//                     docker.withRegistry('', 'DockerHubCred') {
+//                         sh 'docker tag calculator iiitb/calculator:latest'
+//                         sh 'docker push iiitb/calculator'
+//                     }
+//                 }
+//             }
+//         }
+//
+//         stage('Run Ansible Playbook') {
+//             steps {
+//                 script {
+//                     withEnv(["ANSIBLE_HOST_KEY_CHECKING=False"]) {
+//                         ansiblePlaybook(
+//                             playbook: 'deploy.yml',
+//                             inventory: 'inventory'
+//                         )
+//                     }
+//                 }
+//             }
+//         }
+//     }
 
-        stage('Push Docker Images') {
-            steps {
-                script{
-                    docker.withRegistry('', 'DockerHubCred') {
-                    sh 'docker tag calculator iiitb/calculator:latest'
-                    sh 'docker push iiitb/calculator'
-                    }
-                 }
-            }
-        }
-
-     stage('Run Ansible Playbook') {
-        steps {
-            script {
-              withEnv(["ANSIBLE_HOST_KEY_CHECKING=False"]) {
-                ansiblePlaybook(
-                    playbook: 'deploy.yml',
-                    inventory: 'inventory'
-                )
-            }
-        }
-    }
- }
-}
- post {
+    post {
         success {
             mail to: 'shendeprajyot.prasad@iiitb.ac.in',
                  subject: "Application Deployment SUCCESS: Build ${env.JOB_NAME} #${env.BUILD_NUMBER}",
@@ -65,5 +66,5 @@ pipeline {
         always {
             cleanWs()
         }
-      }
     }
+}
