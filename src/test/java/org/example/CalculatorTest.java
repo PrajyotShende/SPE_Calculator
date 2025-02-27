@@ -12,7 +12,6 @@ public class CalculatorTest {
         assertEquals(1, Main.factorial(0));
         // Factorial of 5 should be 120
         assertEquals(120, Main.factorial(5));
-        // Factorial of 7 should be 5040
         assertEquals(5040, Main.factorial(7));
     }
 
