@@ -19,7 +19,7 @@ pipeline {
         }
         stage('Docker Build') {
             steps {
-                sh 'docker build -t prajyotshende/SPE_Calculator .'
+                sh 'docker build -t prajyotshende/spe_calculator .'
             }
         }
         stage('Docker Push') {
@@ -27,8 +27,8 @@ pipeline {
                 withCredentials([string(credentialsId: 'docker-hub-credentials', variable: 'DOCKER_PASS')]) {
                     sh '''
                     docker login -u prajyotshende -p $DOCKER_PASS
-                    docker tag prajyotshende/SPE_Calculator prajyotshende/SPE_Calculator:latest
-                    docker push prajyotshende/SPE_Calculator:latest
+                    docker tag prajyotshende/spe_calculator prajyotshende/spe_calculator:latest
+                    docker push prajyotshende/spe_calculator:latest
                     '''
                 }
             }
