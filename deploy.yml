@@ -2,7 +2,6 @@
 - name: Deploy Scientific Calculator Container
   hosts: localhost
   become: yes
-  gather_facts: no
   tasks:
     - name: Pull Docker image from Docker Hub
       docker_image:
