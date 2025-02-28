@@ -6,10 +6,10 @@
     {
         public static void main(String[] args)
         {
-//            if (args.length > 0 && args[0].equalsIgnoreCase("noninteractive")) {
-//                System.out.println("Running in non-interactive mode. Exiting...");
-//                return;
-//            }
+            if (args.length > 0 && args[0].equalsIgnoreCase("noninteractive")) {
+                System.out.println("Running in non-interactive mode. Exiting...");
+                return;
+            }
             Scanner scanner = new Scanner(System.in);
             while (true)
             {
