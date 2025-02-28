@@ -6,13 +6,7 @@
     {
         public static void main(String[] args)
         {
-            System.out.println("Scientific Calculator Menu:");
-            System.out.println("1. Square Root");
-            System.out.println("2. Factorial");
-            System.out.println("3. Natural Logarithm");
-            System.out.println("4. Power Function");
-            System.out.println("5. Exit");
-            System.out.print("Choose an option: ");
+//
             Scanner scanner = new Scanner(System.in);
             while (true)
             {
