@@ -3,15 +3,31 @@
   hosts: mytarget
   become: yes
   tasks:
-    - name: Pull Docker image from Docker Hub
-      docker_image:
+    - name: Ensure Docker is installed
+      apt:
+        name: docker.io
+        state: present
+      when: ansible_os_family == "Debian"
+
+    - name: Pull latest Docker image
+      community.docker.docker_image:
         name: prajyotshende/spe_calculator
         tag: latest
         source: pull
 
-    - name: Run Docker container
-      docker_container:
-        name: spe_calculator
+    - name: Stop and remove existing container (if running)
+      community.docker.docker_container:
+        name: scientific-calculator
+        state: absent
+        force_kill: yes
+
+    - name: Run the new container
+      community.docker.docker_container:
+        name: scientific-calculator
         image: prajyotshende/spe_calculator:latest
         state: started
         restart_policy: always
+        ports:
+          - "9090:8080"
+        interactive: yes
+        tty: yes
