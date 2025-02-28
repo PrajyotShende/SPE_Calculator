@@ -6,18 +6,13 @@
     {
         public static void main(String[] args)
         {
-//            if (args.length > 0 && args[0].equalsIgnoreCase("noninteractive")) {
-//                System.out.println("Running in non-interactive mode. Waiting indefinitely...");
-//                try {
-//                    // Sleep indefinitely so the container remains alive
-//                    Thread.sleep(Long.MAX_VALUE);
-//                } catch (InterruptedException e) {
-//                    Thread.currentThread().interrupt();
-//                }
-//                // Optionally, you could exit gracefully here if desired
-//                // System.exit(0);
-//                return;
-//            }
+            System.out.println("Scientific Calculator Menu:");
+            System.out.println("1. Square Root");
+            System.out.println("2. Factorial");
+            System.out.println("3. Natural Logarithm");
+            System.out.println("4. Power Function");
+            System.out.println("5. Exit");
+            System.out.print("Choose an option: ");
             Scanner scanner = new Scanner(System.in);
             while (true)
             {
@@ -29,7 +24,7 @@
                 System.out.println("5. Exit");
                 System.out.print("Choose an option: ");
                 int choice = scanner.nextInt();
-    //
+
                 switch (choice)
                 {
                     case 1:
