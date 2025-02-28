@@ -7,7 +7,15 @@
         public static void main(String[] args)
         {
             if (args.length > 0 && args[0].equalsIgnoreCase("noninteractive")) {
-                System.out.println("Running in non-interactive mode. Exiting...");
+                System.out.println("Running in non-interactive mode. Waiting indefinitely...");
+                try {
+                    // Sleep indefinitely so the container remains alive
+                    Thread.sleep(Long.MAX_VALUE);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+                // Optionally, you could exit gracefully here if desired
+                // System.exit(0);
                 return;
             }
             Scanner scanner = new Scanner(System.in);
