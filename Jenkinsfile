@@ -48,7 +48,7 @@ pipeline {
                     sh '''
                         export ANSIBLE_HOST_KEY_CHECKING=False
                         ansible-playbook -i inventory.ini deploy.yml \
-                        --extra-vars "ansible_user=$ANSIBLE_USER ansible_ssh_pass=$ANSIBLE_PASS"
+                        --extra-vars "ansible_user=$ANSIBLE_USER ansible_ssh_pass=$ANSIBLE_PASS ansible_become_pass=$ANSIBLE_PASS"
                     '''
                 }
             }
