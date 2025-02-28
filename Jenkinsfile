@@ -46,8 +46,8 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'ansible-id', usernameVariable: 'ANSIBLE_USER', passwordVariable: 'ANSIBLE_PASS')]) {
                     sh '''
-                        ansible-playbook -i inventory.ini deploy.yml \
-                        --extra-vars "ansible_user=$ANSIBLE_USER ansible_ssh_pass=$ANSIBLE_PASS"
+                        export ANSIBLE_HOST_KEY_CHECKING=False
+                        ansible-playbook -i inventory.ini deploy.yml --extra-vars "ansible_user=$ANSIBLE_USER ansible_ssh_pass=$ANSIBLE_PASS"
                     '''
                 }
             }
