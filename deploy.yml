@@ -25,7 +25,3 @@
           - "9090:8080"
         interactive: yes
         tty: yes
-
-#
-#    - name: Running Container
-#      shell: docker run -it -d --name prajyotshende_spe_calculator /bin/bash
